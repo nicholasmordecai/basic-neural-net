@@ -36,7 +36,7 @@ export class NeuralNet {
         this.outputNeuron = new Neuron([Utils.randomNormalDist(), Utils.randomNormalDist()]);
         this.outputNeuron.bias = Utils.randomNormalDist();
 
-        // Begin training the network
+        // Begin training the network - 10k generations (epochs)
         this.trainNetwork(10000);
     }
 
