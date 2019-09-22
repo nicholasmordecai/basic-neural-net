@@ -50,7 +50,7 @@ export class NeuralNet {
         const newInput: number[] = [weight - this.weightMean, height - this.heightMean];
         const result: number = this.feedForward(newInput);
         const gender: string = Gender[(result > 0.5 ? 1 : 0)];
-        console.log(`Perdition for weight: ${weight} and height: ${height} is ${gender} with a certianty of ${(100 - (result * 100))}%`);
+        console.log(`Perdition for weight: ${weight} and height: ${height} is ${gender} with a certianty of ${Math.round((100 - (result * 100)))}%`);
         return result;
     }
 
