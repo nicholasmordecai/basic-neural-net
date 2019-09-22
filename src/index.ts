@@ -1,6 +1,11 @@
 import { Neuron } from './Neuron';
 import { Utils } from './utils';
-import { writeFileSync, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
+
+export enum Gender {
+    'male', 
+    'female'
+}
 
 export class NeuralNet {
     private numberOfNeurons: number;
@@ -10,14 +15,19 @@ export class NeuralNet {
     private neuron1: Neuron;
     private neuron2: Neuron;
     private outputNeuron: Neuron;
+    private weightMean: number;
+    private heightMean: number;
 
     constructor() {
         this.numberOfNeurons = 2;
         this.neurons = [];
 
         this.trainingData = JSON.parse(readFileSync(__dirname + '/../data/training_data.json', 'utf8'));
-        this.trueData = JSON.parse(readFileSync(__dirname  + '/../data/true_results.json', 'utf8'));
-        
+        this.trueData = JSON.parse(readFileSync(__dirname + '/../data/true_results.json', 'utf8'));
+
+        this.weightMean = 135;
+        this.heightMean = 66
+
         this.neuron1 = new Neuron([Utils.randomNormalDist(), Utils.randomNormalDist()]);
         this.neuron1.bias = Utils.randomNormalDist();
         this.neuron2 = new Neuron([Utils.randomNormalDist(), Utils.randomNormalDist()]);
@@ -26,10 +36,13 @@ export class NeuralNet {
         this.outputNeuron.bias = Utils.randomNormalDist();
 
         this.trainNetwork();
+    }
 
-        const emily: number[] = [-7, -3];
-        const result = this.feedForward(emily);
-        console.log('Emily', result.toFixed(3));
+    public predict(weight: number, height: number): void {
+        const newInput: number[] = [weight - this.weightMean, height - this.heightMean];
+        const result = this.feedForward(newInput);
+        const gender = Gender[(result > 0.5 ? 1 : 0)];
+        console.log(`Perdition for weight: ${weight} and height: ${height} is ${gender} with a certianty of ${(100 - (result * 100))}%`);
     }
 
     private feedForward(x: number[]) {
@@ -95,7 +108,7 @@ export class NeuralNet {
                 this.outputNeuron.weights[0] -= learnRate * d_L_d_ypred * d_ypred_d_w6;
                 this.outputNeuron.bias -= learnRate * d_L_d_ypred * d_ypred_d_b3;
 
-                
+
             }
             if (epoch % 10 == 0) {
                 const y_preds = this.applyAlongAxis();
@@ -146,4 +159,5 @@ export class NeuralNet {
     }
 }
 
-new NeuralNet();
+const neuralNet = new NeuralNet();
+neuralNet.predict(140, 70);
