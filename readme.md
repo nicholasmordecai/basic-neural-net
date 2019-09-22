@@ -1,6 +1,7 @@
 # Predict Gender From Height & Weight with Neural Network
+NodeJS (TypeScript) implementation of some very basic machine learning with 2 inputs, 2 hiden neurons and one output neuron. 
 
---  NodeJS (TypeScript) implementation of some very basic machine learning with 2 inputs, 2 hiden neurons and one output neuron. 
+## Get Running
 
 This project has no dependencies, mathematical or machine learning. The only dependencies are for development:
 -- **Dependencies**
@@ -10,7 +11,6 @@ This project has no dependencies, mathematical or machine learning. The only dep
 -- **Types**
 * @types/node
 
-## Get Running
 > this will keep alive until any .ts file is changed, the re-compile and nodemon will restart the process.
 ```sh
 $ npm install
